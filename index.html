@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nuestra Boda | Sofía & Alejandro</title>
+
+  <!-- Carga las tipografías de Google Fonts (Cormorant Garamond para títulos y Montserrat para texto) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
+    /* Variables de colores y bordes de la invitación */
     :root {
       --bg-dark: #0f1115;
       --bg-card: #171a21;
@@ -18,10 +22,13 @@
       --border-gold: rgba(212, 175, 55, 0.3);
     }
 
+    /* Reinicia márgenes y rellenos en todos los elementos */
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Hace que el desplazamiento al hacer clic en anclas sea suave */
     html { scroll-behavior: smooth; }
 
+    /* Estilos base de toda la página */
     body {
       font-family: 'Montserrat', sans-serif;
       background-color: var(--bg-dark);
@@ -30,12 +37,13 @@
       overflow-x: hidden;
     }
 
+    /* Títulos elegantes con fuente serif */
     h1, h2, h3, .serif {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 400;
     }
 
-    /* Pantalla de Bienvenida (Sobre) */
+    /* Pantalla inicial tipo sobre que cubre toda la ventana hasta abrirla */
     #welcome-overlay {
       position: fixed;
       inset: 0;
@@ -50,11 +58,13 @@
       transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
+    /* Clase aplicada por JS para desvanecer la pantalla de bienvenida */
     #welcome-overlay.hidden {
       opacity: 0;
       visibility: hidden;
     }
 
+    /* Botón dorado con borde para abrir la invitación */
     .seal-btn {
       margin-top: 2rem;
       padding: 14px 36px;
@@ -74,7 +84,7 @@
       color: #0f1115;
     }
 
-    /* Botón flotante de música */
+    /* Botón circular fijo en la esquina inferior derecha para controlar la música */
     #music-toggle {
       position: fixed;
       bottom: 20px;
@@ -94,7 +104,7 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
 
-    /* Contenedor principal mobile-first */
+    /* Columna centrada con ancho máximo pensado para verse como app en celular y escritorio */
     .container {
       max-width: 540px;
       margin: 0 auto;
@@ -102,7 +112,7 @@
       box-shadow: 0 0 40px rgba(0,0,0,0.6);
     }
 
-    /* Hero */
+    /* Portada principal con foto de fondo y degradado oscuro */
     .hero {
       min-height: 94vh;
       display: flex;
@@ -147,7 +157,7 @@
       font-size: 0.85rem;
     }
 
-    /* Secciones */
+    /* Secciones internas: inician ligeramente desplazadas y ocultas hasta entrar en pantalla */
     section {
       padding: 3.5rem 1.5rem;
       text-align: center;
@@ -157,6 +167,7 @@
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
+    /* Clase añadida por IntersectionObserver cuando la sección es visible */
     section.visible {
       opacity: 1;
       transform: translateY(0);
@@ -168,6 +179,7 @@
       margin-bottom: 0.4rem;
     }
 
+    /* Línea decorativa dorada bajo los títulos */
     .divider {
       width: 60px;
       height: 1px;
@@ -175,7 +187,7 @@
       margin: 0.8rem auto 1.8rem;
     }
 
-    /* Frase & Padres */
+    /* Frase principal y cuadrícula de padres */
     .quote {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
@@ -211,7 +223,7 @@
       line-height: 1.5;
     }
 
-    /* Cuenta Regresiva */
+    /* Cuenta regresiva de 4 columnas (Días, Horas, Min, Seg) */
     .countdown {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -241,7 +253,7 @@
       color: var(--text-muted);
     }
 
-    /* Tarjetas de Ubicación */
+    /* Tarjetas de ceremonia y recepción */
     .event-card {
       background: var(--bg-card);
       border: 1px solid var(--border-gold);
@@ -270,6 +282,7 @@
       margin-bottom: 1.4rem;
     }
 
+    /* Botón secundario con contorno dorado */
     .btn-outline {
       display: inline-block;
       padding: 10px 24px;
@@ -290,7 +303,7 @@
       color: #0f1115;
     }
 
-    /* Línea de Tiempo (Programa) */
+    /* Línea de tiempo vertical del itinerario */
     .timeline {
       position: relative;
       max-width: 380px;
@@ -307,6 +320,7 @@
 
     .timeline-item:last-child { margin-bottom: 0; }
 
+    /* Punto dorado sobre la línea vertical */
     .timeline-item::before {
       content: "";
       position: absolute;
@@ -336,7 +350,7 @@
       color: var(--text-muted);
     }
 
-    /* Galería de Fotos */
+    /* Galería de fotos en cuadrícula de 2 columnas */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -357,7 +371,7 @@
       transform: scale(1.02);
     }
 
-    /* Dress Code & Paleta */
+    /* Muestras circulares de colores sugeridos para vestimenta */
     .palette {
       display: flex;
       justify-content: center;
@@ -372,7 +386,7 @@
       border: 1px solid var(--border-gold);
     }
 
-    /* Cajas informativas */
+    /* Tarjetas informativas (regalos, hospedaje, notas) */
     .info-box {
       background: var(--bg-card);
       border: 1px solid var(--border-gold);
@@ -389,7 +403,7 @@
       margin-top: 1rem;
     }
 
-    /* Formularios */
+    /* Estilos de formularios (canción y confirmación RSVP) */
     .rsvp-form {
       display: flex;
       flex-direction: column;
@@ -416,6 +430,7 @@
       font-size: 0.92rem;
     }
 
+    /* Botón principal sólido en color dorado */
     .btn-gold {
       width: 100%;
       padding: 14px;
@@ -434,7 +449,7 @@
 
     .btn-gold:hover { opacity: 0.9; }
 
-    /* Modal de Foto */
+    /* Ventana modal para ver una foto de la galería en grande */
     #photo-modal {
       display: none;
       position: fixed;
@@ -453,7 +468,7 @@
       border: 1px solid var(--gold);
     }
 
-    /* Bloque de Cotización / Footer */
+    /* Sección final para que clientes coticen con VexaDigital */
     .quote-cta {
       background: linear-gradient(160deg, #181c24, #101217);
       border-top: 1px solid var(--border-gold);
@@ -481,6 +496,7 @@
       margin-bottom: 1rem;
     }
 
+    /* Pie de página */
     footer {
       padding: 1.8rem 1.5rem 2.5rem;
       text-align: center;
@@ -497,14 +513,15 @@
 </head>
 <body>
 
-  <!-- Música de boda (Piano romántico) -->
-  <audio id="bg-music" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_946b0939c8.mp3?filename=wedding-piano-124457.mp3" type="audio/mpeg">
+  <!-- Elemento de audio: se evita enlace externo con error 403; si subes boda.mp3 al repo, descomenta <source> -->
+  <audio id="bg-music" loop preload="none">
+    <!-- <source src="./boda.mp3" type="audio/mpeg"> -->
   </audio>
 
+  <!-- Botón flotante para pausar o reproducir la música -->
   <button id="music-toggle" title="Música">♪</button>
 
-  <!-- Pantalla de apertura -->
+  <!-- Pantalla de bienvenida que se cierra al llamar a openInvitation() -->
   <div id="welcome-overlay">
     <p class="subtitle">Estás cordialmente invitado</p>
     <h1 class="serif" style="font-size: 3rem; color: var(--gold-light);">Sofía & Alejandro</h1>
@@ -514,20 +531,21 @@
     <button class="seal-btn" onclick="openInvitation()">Abrir Invitación</button>
   </div>
 
-  <!-- Modal para ampliar fotos -->
+  <!-- Modal que muestra la imagen seleccionada al tocarla; se cierra al tocar el fondo -->
   <div id="photo-modal" onclick="this.style.display='none'">
     <img id="modal-img" src="" alt="Foto ampliada">
   </div>
 
+  <!-- Contenedor general de la invitación -->
   <div class="container">
-    <!-- Portada -->
+    <!-- Portada con nombres y fecha -->
     <header class="hero">
       <p class="subtitle">¡Nos Casamos!</p>
       <h1>Sofía <span class="ampersand">&</span> Alejandro</h1>
       <div class="date-badge">20 · DICIEMBRE · 2026</div>
     </header>
 
-    <!-- Padres y Padrinos -->
+    <!-- Frase, padres y padrinos -->
     <section>
       <p class="quote">“Ninguna medida de tiempo contigo será suficiente, pero empecemos con para siempre.”</p>
       <p class="subtitle">Con la bendición de nuestros padres</p>
@@ -548,7 +566,7 @@
       </div>
     </section>
 
-    <!-- Cuenta Regresiva -->
+    <!-- Cuenta regresiva actualizada cada segundo desde JS -->
     <section>
       <p class="subtitle">Faltan</p>
       <h2>Para el Gran Día</h2>
@@ -561,7 +579,7 @@
       </div>
     </section>
 
-    <!-- Ubicaciones -->
+    <!-- Tarjetas de ubicación con enlaces a Google Maps -->
     <section>
       <p class="subtitle">Dónde y Cuándo</p>
       <h2>Ceremonia y Recepción</h2>
@@ -582,7 +600,7 @@
       </div>
     </section>
 
-    <!-- Programa del Evento -->
+    <!-- Cronograma de actividades del día -->
     <section>
       <p class="subtitle">Minuto a Minuto</p>
       <h2>Itinerario</h2>
@@ -616,7 +634,7 @@
       </div>
     </section>
 
-    <!-- Código de Vestimenta y Detalles -->
+    <!-- Código de vestimenta y recomendaciones generales -->
     <section>
       <p class="subtitle">Dress Code & Notas</p>
       <h2>Formal / Etiqueta</h2>
@@ -646,7 +664,7 @@
       </div>
     </section>
 
-    <!-- Galería de Fotos -->
+    <!-- Galería interactiva: al tocar una foto llama a openPhoto(this.src) -->
     <section>
       <p class="subtitle">Nuestros Momentos</p>
       <h2>Galería</h2>
@@ -659,7 +677,7 @@
       </div>
     </section>
 
-    <!-- Mesa de Regalos -->
+    <!-- Datos bancarios con botón para copiar CLABE y enlace a mesa de regalos -->
     <section>
       <p class="subtitle">Obsequios</p>
       <h2>Mesa de Regalos</h2>
@@ -680,7 +698,7 @@
       </div>
     </section>
 
-    <!-- Hospedaje Sugerido -->
+    <!-- Información de hotel sugerido -->
     <section>
       <p class="subtitle">Invitados Foráneos</p>
       <h2>Hospedaje</h2>
@@ -692,7 +710,7 @@
       </div>
     </section>
 
-    <!-- Sugerencia de Música -->
+    <!-- Formulario para sugerir canción por WhatsApp -->
     <section>
       <p class="subtitle">Que no pare la fiesta</p>
       <h2>Sugiere una Canción</h2>
@@ -708,7 +726,7 @@
       </form>
     </section>
 
-    <!-- Confirmación RSVP por WhatsApp -->
+    <!-- Formulario de confirmación de asistencia (RSVP) por WhatsApp -->
     <section>
       <p class="subtitle">RSVP</p>
       <h2>Confirma tu Asistencia</h2>
@@ -726,4 +744,154 @@
           <label>¿Asistirán?</label>
           <select id="input-status">
             <option value="Sí, asistiremos con mucho gusto">Sí, asistiremos con mucho gusto</option>
-            <option value="Lamentablemente no podremos
+            <option value="Lamentablemente no podremos asistir">Lamentablemente no podremos asistir</option>
+          </select>
+        </div>
+        <div>
+          <label>Número de personas</label>
+          <select id="input-guests">
+            <option value="1 persona">1 persona</option>
+            <option value="2 personas" selected>2 personas</option>
+            <option value="3 personas">3 personas</option>
+            <option value="4 personas">4 personas</option>
+          </select>
+        </div>
+        <div>
+          <label>Mensaje para los novios (opcional)</label>
+          <textarea id="input-message" rows="2" placeholder="¡Muchas felicidades!"></textarea>
+        </div>
+        <button type="submit" class="btn-gold">Confirmar por WhatsApp</button>
+      </form>
+    </section>
+
+    <!-- Llamado a la acción con tu teléfono y enlace directo a WhatsApp para cotizar -->
+    <div class="quote-cta">
+      <p class="subtitle" style="margin-bottom: 0.3rem;">¿Te gustó esta muestra?</p>
+      <h3>Cotiza tu Invitación Digital</h3>
+      <p>Personalizamos diseño, colores, música, mapas y enlaces para tu boda, XV años o evento.</p>
+      <div class="phone-display">+52 1 314 247 8637</div>
+      <a href="https://wa.me/5213142478637?text=Hola%2C%20vi%20la%20muestra%20de%20invitaci%C3%B3n%20digital%20en%20VexaDigital%20y%20me%20gustar%C3%ADa%20cotizar%20una." target="_blank" class="btn-gold" style="display: inline-block; text-decoration: none; max-width: 300px;">
+        Cotizar por WhatsApp
+      </a>
+    </div>
+
+    <!-- Créditos finales -->
+    <footer>
+      <p>Con cariño, Sofía & Alejandro</p>
+      <p style="margin-top: 0.6rem;">Diseño digital por <a href="https://github.com/VexaDigital" target="_blank">VexaDigital</a></p>
+    </footer>
+  </div>
+
+  <script>
+    // 1. Fecha objetivo del evento: Año, Mes (0 = enero, 11 = diciembre), Día, Hora, Minuto, Segundo
+    const eventDate = new Date(2026, 11, 20, 17, 0, 0).getTime();
+
+    // 2. Número de WhatsApp del evento (código de país + 10 dígitos, sin espacios)
+    const whatsappNumber = "523318658787";
+
+    // Referencias a elementos de audio y botón de música
+    const music = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-toggle');
+    let isPlaying = false;
+
+    // Oculta la pantalla de bienvenida e intenta reproducir la música si hay archivo <source> activo
+    function openInvitation() {
+      const overlay = document.getElementById('welcome-overlay');
+      if (overlay) {
+        overlay.classList.add('hidden');
+        setTimeout(() => {
+          overlay.style.display = 'none';
+        }, 850);
+      }
+
+      if (music && music.querySelector('source')) {
+        music.play().then(() => {
+          isPlaying = true;
+          if (musicBtn) musicBtn.textContent = '❚❚';
+        }).catch(() => {});
+      }
+    }
+
+    // Alterna entre reproducir y pausar la música al tocar el botón flotante
+    if (musicBtn) {
+      musicBtn.addEventListener('click', () => {
+        if (!music || !music.querySelector('source')) return;
+        if (isPlaying) {
+          music.pause();
+          musicBtn.textContent = '♪';
+        } else {
+          music.play().catch(() => {});
+          musicBtn.textContent = '❚❚';
+        }
+        isPlaying = !isPlaying;
+      });
+    }
+
+    // Calcula cada segundo cuánto falta para eventDate y actualiza los cuadros de la cuenta regresiva
+    setInterval(() => {
+      const now = new Date().getTime();
+      const diff = eventDate - now;
+      if (diff <= 0) return;
+
+      const d = document.getElementById('days');
+      const h = document.getElementById('hours');
+      const m = document.getElementById('minutes');
+      const s = document.getElementById('seconds');
+
+      if (d) d.textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+      if (h) h.textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+      if (m) m.textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
+      if (s) s.textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+    }, 1000);
+
+    // Abre el modal con la imagen de la galería seleccionada
+    function openPhoto(src) {
+      const modalImg = document.getElementById('modal-img');
+      const modal = document.getElementById('photo-modal');
+      if (modalImg && modal) {
+        modalImg.src = src;
+        modal.style.display = 'flex';
+      }
+    }
+
+    // Copia la CLABE interbancaria al portapapeles del usuario
+    function copyClabe() {
+      const clabeEl = document.getElementById('clabe-text');
+      if (!clabeEl) return;
+      navigator.clipboard.writeText(clabeEl.textContent.trim());
+      alert('CLABE copiada al portapapeles');
+    }
+
+    // Arma el texto con la canción sugerida y abre WhatsApp hacia whatsappNumber
+    function sendSong(e) {
+      e.preventDefault();
+      const song = document.getElementById('song-name').value;
+      const text = `¡Hola! Para la boda de Sofía & Alejandro sugiero que pongan esta canción: *${song}*`;
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    // Arma los datos de asistencia del formulario y abre WhatsApp hacia whatsappNumber
+    function sendWhatsApp(e) {
+      e.preventDefault();
+      const name = document.getElementById('input-name').value;
+      const status = document.getElementById('input-status').value;
+      const guests = document.getElementById('input-guests').value;
+      const msg = document.getElementById('input-message').value;
+
+      let text = `Hola, soy *${name}*. Confirmo sobre la boda de Sofía & Alejandro:\n• Estado: ${status}\n• Asistentes: ${guests}`;
+      if (msg.trim()) text += `\n• Mensaje: "${msg.trim()}"`;
+
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    // Observa cuándo cada <section> entra en el área visible del navegador para mostrarla con animación
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
+  </script>
+</body>
+</html>
