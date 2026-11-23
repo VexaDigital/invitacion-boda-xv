@@ -331,6 +331,11 @@
       color: var(--text-main);
     }
 
+    .timeline-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
     /* Galería de Fotos */
     .gallery-grid {
       display: grid;
@@ -367,7 +372,7 @@
       border: 1px solid var(--border-gold);
     }
 
-    /* Mesa de Regalos & Hospedaje */
+    /* Cajas informativas */
     .info-box {
       background: var(--bg-card);
       border: 1px solid var(--border-gold);
@@ -375,6 +380,13 @@
       border-radius: 8px;
       margin-top: 1rem;
       font-size: 0.85rem;
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 1rem;
     }
 
     /* Formularios */
@@ -441,11 +453,40 @@
       border: 1px solid var(--gold);
     }
 
-    footer {
+    /* Bloque de Cotización / Footer */
+    .quote-cta {
+      background: linear-gradient(160deg, #181c24, #101217);
+      border-top: 1px solid var(--border-gold);
       padding: 2.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .quote-cta h3 {
+      font-size: 1.85rem;
+      color: var(--gold-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .quote-cta p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .phone-display {
+      font-size: 0.95rem;
+      color: var(--gold);
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      padding: 1.8rem 1.5rem 2.5rem;
       text-align: center;
       font-size: 0.75rem;
       color: var(--text-muted);
+      background: #0b0d10;
     }
 
     footer a {
@@ -456,9 +497,9 @@
 </head>
 <body>
 
-  <!-- Música de fondo -->
+  <!-- Música de boda (Piano romántico) -->
   <audio id="bg-music" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/02/22/audio_d1718ab41b.mp3?filename=piano-moment-9835.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_946b0939c8.mp3?filename=wedding-piano-124457.mp3" type="audio/mpeg">
   </audio>
 
   <button id="music-toggle" title="Música">♪</button>
@@ -550,29 +591,34 @@
         <div class="timeline-item">
           <div class="timeline-hour">5:00 PM</div>
           <div class="timeline-title">Ceremonia Religiosa</div>
+          <div class="timeline-desc">Acompáñanos a recibir la bendición</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-hour">7:30 PM</div>
           <div class="timeline-title">Cóctel de Bienvenida</div>
+          <div class="timeline-desc">Bebidas de cortesía en el jardín</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-hour">8:30 PM</div>
           <div class="timeline-title">Entrada de los Novios y Cena</div>
+          <div class="timeline-desc">Banquete de tres tiempos</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-hour">10:00 PM</div>
           <div class="timeline-title">Primer Baile y Brindis</div>
+          <div class="timeline-desc">Copa en mano para celebrar</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-hour">10:30 PM</div>
           <div class="timeline-title">¡Se abre la pista!</div>
+          <div class="timeline-desc">Música y baile toda la noche</div>
         </div>
       </div>
     </section>
 
-    <!-- Código de Vestimenta -->
+    <!-- Código de Vestimenta y Detalles -->
     <section>
-      <p class="subtitle">Dress Code</p>
+      <p class="subtitle">Dress Code & Notas</p>
       <h2>Formal / Etiqueta</h2>
       <div class="divider"></div>
       <p style="font-size: 0.88rem; color: var(--text-muted);">
@@ -584,9 +630,20 @@
         <div class="swatch" style="background: #5c1d24;" title="Vino"></div>
         <div class="swatch" style="background: #b59449;" title="Dorado"></div>
       </div>
-      <p style="font-size: 0.8rem; color: var(--gold-light);">
+      <p style="font-size: 0.8rem; color: var(--gold-light); margin-bottom: 1.2rem;">
         Reservado el color blanco y marfil exclusivamente para la novia.
       </p>
+
+      <div class="tips-grid">
+        <div class="info-box" style="margin-top: 0;">
+          <p style="color: var(--gold); font-weight: 500; margin-bottom: 0.2rem;">Estacionamiento</p>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">Valet parking y seguridad en el acceso principal.</p>
+        </div>
+        <div class="info-box" style="margin-top: 0;">
+          <p style="color: var(--gold); font-weight: 500; margin-bottom: 0.2rem;">Puntualidad</p>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">Te pedimos llegar 15 minutos antes de cada horario.</p>
+        </div>
+      </div>
     </section>
 
     <!-- Galería de Fotos -->
@@ -669,118 +726,4 @@
           <label>¿Asistirán?</label>
           <select id="input-status">
             <option value="Sí, asistiremos con mucho gusto">Sí, asistiremos con mucho gusto</option>
-            <option value="Lamentablemente no podremos asistir">Lamentablemente no podremos asistir</option>
-          </select>
-        </div>
-        <div>
-          <label>Número de personas</label>
-          <select id="input-guests">
-            <option value="1 persona">1 persona</option>
-            <option value="2 personas" selected>2 personas</option>
-            <option value="3 personas">3 personas</option>
-            <option value="4 personas">4 personas</option>
-          </select>
-        </div>
-        <div>
-          <label>Mensaje para los novios (opcional)</label>
-          <textarea id="input-message" rows="2" placeholder="¡Muchas felicidades!"></textarea>
-        </div>
-        <button type="submit" class="btn-gold">Confirmar por WhatsApp</button>
-      </form>
-    </section>
-
-    <footer>
-      <p>Con cariño, Sofía & Alejandro</p>
-      <p style="margin-top: 0.6rem;">Diseño digital por <a href="https://github.com/VexaDigital" target="_blank">VexaDigital</a></p>
-    </footer>
-  </div>
-
-  <script>
-    // 1. Configurar fecha del evento (Año, Mes - 1, Día, Hora, Minuto)
-    const eventDate = new Date(2026, 11, 20, 17, 0, 0).getTime();
-
-    // 2. Número de WhatsApp al que llegará la confirmación (52 + 10 dígitos)
-    const whatsappNumber = "523318658787";
-
-    // Música y apertura
-    const music = document.getElementById('bg-music');
-    const musicBtn = document.getElementById('music-toggle');
-    let isPlaying = false;
-
-    function openInvitation() {
-      document.getElementById('welcome-overlay').classList.add('hidden');
-      music.play().then(() => {
-        isPlaying = true;
-        musicBtn.textContent = '❚❚';
-      }).catch(() => {});
-    }
-
-    musicBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        music.pause();
-        musicBtn.textContent = '♪';
-      } else {
-        music.play();
-        musicBtn.textContent = '❚❚';
-      }
-      isPlaying = !isPlaying;
-    });
-
-    // Cuenta regresiva
-    setInterval(() => {
-      const now = new Date().getTime();
-      const diff = eventDate - now;
-      if (diff <= 0) return;
-
-      document.getElementById('days').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-      document.getElementById('hours').textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
-      document.getElementById('minutes').textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
-      document.getElementById('seconds').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-    }, 1000);
-
-    // Ampliar foto en galería
-    function openPhoto(src) {
-      document.getElementById('modal-img').src = src;
-      document.getElementById('photo-modal').style.display = 'flex';
-    }
-
-    // Copiar CLABE
-    function copyClabe() {
-      const clabe = document.getElementById('clabe-text').textContent;
-      navigator.clipboard.writeText(clabe);
-      alert('CLABE copiada al portapapeles');
-    }
-
-    // Enviar canción sugerida
-    function sendSong(e) {
-      e.preventDefault();
-      const song = document.getElementById('song-name').value;
-      const text = `¡Hola! Para la boda de Sofía & Alejandro sugiero que pongan esta canción: *${song}*`;
-      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
-    }
-
-    // Enviar confirmación por WhatsApp
-    function sendWhatsApp(e) {
-      e.preventDefault();
-      const name = document.getElementById('input-name').value;
-      const status = document.getElementById('input-status').value;
-      const guests = document.getElementById('input-guests').value;
-      const msg = document.getElementById('input-message').value;
-
-      let text = `Hola, soy *${name}*. Confirmo sobre la boda de Sofía & Alejandro:\n• Estado: ${status}\n• Asistentes: ${guests}`;
-      if (msg.trim()) text += `\n• Mensaje: "${msg.trim()}"`;
-
-      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
-    }
-
-    // Animación de aparición al bajar (Scroll Reveal)
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
-  </script>
-</body>
-</html>
+            <option value="Lamentablemente no podremos
