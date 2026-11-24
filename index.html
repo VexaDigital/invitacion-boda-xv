@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f1115" />
   <title>Nuestra Boda | Sofía & Alejandro</title>
 
   <!-- Tipografías de Google Fonts -->
@@ -24,7 +25,7 @@
     }
 
     /* Reset general */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     /* Desplazamiento suave entre secciones */
     html { scroll-behavior: smooth; }
@@ -36,12 +37,41 @@
       color: var(--text-main);
       line-height: 1.6;
       overflow-x: hidden;
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     /* Títulos con fuente serif */
     h1, h2, h3, .serif {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 400;
+    }
+
+    /* Compensación para barra sticky al saltar por anclas */
+    section[id] {
+      scroll-margin-top: 58px;
+    }
+
+    /* Toast visual rápido */
+    #toast-msg {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-80px);
+      background: rgba(23, 26, 33, 0.98);
+      color: var(--gold-light);
+      border: 1px solid var(--gold);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      z-index: 3000;
+      transition: transform 0.28s ease;
+      white-space: nowrap;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.65);
+    }
+
+    #toast-msg.show {
+      transform: translateX(-50%) translateY(0);
     }
 
     /* Pantalla inicial tipo sobre */
@@ -56,12 +86,13 @@
       justify-content: center;
       text-align: center;
       padding: 2rem;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
+      transition: opacity 0.65s ease, visibility 0.65s ease;
     }
 
     #welcome-overlay.hidden {
       opacity: 0;
       visibility: hidden;
+      pointer-events: none;
     }
 
     /* Botón de apertura */
@@ -76,10 +107,11 @@
       letter-spacing: 3px;
       text-transform: uppercase;
       cursor: pointer;
+      border-radius: 4px;
       transition: all 0.3s ease;
     }
 
-    .seal-btn:hover {
+    .seal-btn:hover, .seal-btn:active {
       background: var(--gold);
       color: #0f1115;
     }
@@ -87,25 +119,26 @@
     /* Botón flotante para pausar/reproducir música */
     #music-toggle {
       position: fixed;
-      bottom: 20px;
+      bottom: calc(20px + env(safe-area-inset-bottom));
       right: 20px;
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background: rgba(23, 26, 33, 0.94);
+      background: rgba(23, 26, 33, 0.95);
       border: 1px solid var(--gold);
       color: var(--gold);
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       cursor: pointer;
-      z-index: 1000;
+      z-index: 1200;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.55);
     }
 
     /* Contenedor centrado mobile-first */
     .container {
+      width: 100%;
       max-width: 540px;
       margin: 0 auto;
       background: var(--bg-dark);
@@ -119,9 +152,10 @@
       z-index: 500;
       display: flex;
       justify-content: space-around;
-      gap: 4px;
-      padding: 0.7rem 0.5rem;
-      background: rgba(15, 17, 21, 0.92);
+      align-items: center;
+      gap: 2px;
+      padding: 0.72rem 0.4rem;
+      background: rgba(15, 17, 21, 0.95);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border-gold);
     }
@@ -129,20 +163,21 @@
     .quick-nav a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.65rem;
-      letter-spacing: 1.5px;
+      font-size: 0.64rem;
+      letter-spacing: 1px;
       text-transform: uppercase;
-      padding: 4px 6px;
+      padding: 6px 5px;
+      white-space: nowrap;
       transition: color 0.25s ease;
     }
 
-    .quick-nav a:hover {
+    .quick-nav a:hover, .quick-nav a:active {
       color: var(--gold-light);
     }
 
     /* Portada principal */
     .hero {
-      min-height: 92vh;
+      min-height: 85svh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -163,7 +198,7 @@
     }
 
     .hero h1 {
-      font-size: 3.7rem;
+      font-size: clamp(2.8rem, 11vw, 3.7rem);
       line-height: 1.05;
       color: var(--gold-light);
       margin: 0.4rem 0;
@@ -172,7 +207,7 @@
     .hero .ampersand {
       font-style: italic;
       color: var(--gold);
-      font-size: 2.8rem;
+      font-size: 2.5rem;
       display: block;
     }
 
@@ -185,23 +220,18 @@
       font-size: 0.85rem;
     }
 
-    /* Secciones con animación al hacer scroll */
+    /* Secciones visibles de forma confiable en móviles */
     section {
-      padding: 3.5rem 1.5rem;
+      padding: 3rem 1.35rem;
       text-align: center;
       border-bottom: 1px solid rgba(255,255,255,0.06);
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    section.visible {
       opacity: 1;
       transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
     h2 {
-      font-size: 2.35rem;
+      font-size: clamp(2rem, 8vw, 2.35rem);
       color: var(--gold-light);
       margin-bottom: 0.4rem;
     }
@@ -226,7 +256,7 @@
     .parents-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.2rem;
+      gap: 0.9rem;
       margin-top: 1.2rem;
     }
 
@@ -234,11 +264,11 @@
       background: var(--bg-card);
       border: 1px solid var(--border-gold);
       border-radius: 8px;
-      padding: 1.2rem 0.8rem;
+      padding: 1.1rem 0.75rem;
     }
 
     .parent-box h3 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       color: var(--gold);
       margin-bottom: 0.4rem;
     }
@@ -253,29 +283,29 @@
     .countdown {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+      gap: 8px;
       margin-top: 1.5rem;
     }
 
     .time-box {
       background: var(--bg-card);
       border: 1px solid var(--border-gold);
-      padding: 1rem 0.5rem;
+      padding: 0.9rem 0.35rem;
       border-radius: 6px;
     }
 
     .time-box span {
       display: block;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
+      font-size: 1.85rem;
       color: var(--gold);
       line-height: 1;
     }
 
     .time-box small {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       color: var(--text-muted);
     }
 
@@ -321,12 +351,12 @@
       background: var(--bg-card);
       border: 1px solid var(--border-gold);
       border-radius: 8px;
-      padding: 2rem 1.5rem;
-      margin-bottom: 1.5rem;
+      padding: 1.8rem 1.25rem;
+      margin-bottom: 1.25rem;
     }
 
     .event-card h3 {
-      font-size: 1.8rem;
+      font-size: 1.75rem;
       color: var(--gold);
       margin-bottom: 0.4rem;
     }
@@ -348,20 +378,20 @@
     /* Botón contorno dorado */
     .btn-outline {
       display: inline-block;
-      padding: 10px 24px;
+      padding: 11px 22px;
       border: 1px solid var(--gold);
       color: var(--gold-light);
       text-decoration: none;
-      font-size: 0.78rem;
-      letter-spacing: 2px;
+      font-size: 0.76rem;
+      letter-spacing: 1.8px;
       text-transform: uppercase;
       border-radius: 4px;
-      transition: 0.3s;
+      transition: 0.25s;
       background: transparent;
       cursor: pointer;
     }
 
-    .btn-outline:hover {
+    .btn-outline:hover, .btn-outline:active {
       background: var(--gold);
       color: #0f1115;
     }
@@ -421,16 +451,12 @@
 
     .gallery-grid img {
       width: 100%;
-      height: 190px;
+      height: 175px;
       object-fit: cover;
       border-radius: 6px;
       border: 1px solid var(--border-gold);
       cursor: pointer;
       transition: transform 0.3s ease;
-    }
-
-    .gallery-grid img:hover {
-      transform: scale(1.02);
     }
 
     /* Paleta de vestimenta */
@@ -452,10 +478,11 @@
     .info-box {
       background: var(--bg-card);
       border: 1px solid var(--border-gold);
-      padding: 1.4rem;
+      padding: 1.25rem;
       border-radius: 8px;
       margin-top: 1rem;
       font-size: 0.85rem;
+      overflow-wrap: anywhere;
     }
 
     .tips-grid {
@@ -475,7 +502,9 @@
     }
 
     .rsvp-form label {
-      font-size: 0.75rem;
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 0.74rem;
       letter-spacing: 1px;
       text-transform: uppercase;
       color: var(--gold-light);
@@ -489,7 +518,7 @@
       color: var(--text-main);
       border-radius: 4px;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.92rem;
+      font-size: 16px; /* Evita zoom automático molesto en iPhone */
     }
 
     /* Botón principal dorado */
@@ -517,7 +546,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.92);
-      z-index: 2000;
+      z-index: 2500;
       align-items: center;
       justify-content: center;
       padding: 1rem;
@@ -560,7 +589,7 @@
 
     /* Pie de página */
     footer {
-      padding: 1.8rem 1.5rem 2.5rem;
+      padding: 1.8rem 1.5rem 5.2rem;
       text-align: center;
       font-size: 0.75rem;
       color: var(--text-muted);
@@ -571,26 +600,35 @@
       color: var(--gold);
       text-decoration: none;
     }
+
+    @media (max-width: 380px) {
+      .parents-grid, .tips-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
 
+  <!-- Aviso rápido en pantalla -->
+  <div id="toast-msg">Listo</div>
+
   <!-- Pista de audio local: sube un archivo boda.mp3 a la raíz de tu repo en GitHub Pages -->
-  <audio id="bg-music" loop preload="auto">
+  <audio id="bg-music" loop preload="auto" playsinline>
     <source src="./boda.mp3" type="audio/mpeg">
   </audio>
 
   <!-- Botón flotante para pausar/reproducir la música -->
-  <button id="music-toggle" title="Música">♪</button>
+  <button id="music-toggle" type="button" aria-label="Música" title="Música">♪</button>
 
   <!-- Pantalla inicial tipo sobre -->
   <div id="welcome-overlay">
     <p class="subtitle">Estás cordialmente invitado</p>
-    <h1 class="serif" style="font-size: 3rem; color: var(--gold-light);">Sofía & Alejandro</h1>
+    <h1 class="serif" style="font-size: 2.8rem; color: var(--gold-light);">Sofía & Alejandro</h1>
     <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 320px; margin-top: 0.8rem;">
       Hay momentos en la vida que merecen ser compartidos con las personas más especiales.
     </p>
-    <button class="seal-btn" onclick="openInvitation()">Abrir Invitación</button>
+    <button class="seal-btn" type="button" onclick="openInvitation()">Abrir Invitación</button>
   </div>
 
   <!-- Modal para ver fotos en grande -->
@@ -683,14 +721,14 @@
         <h3>Ceremonia Religiosa</h3>
         <p class="event-time">5:00 PM</p>
         <p class="event-place">Templo Expiatorio del Santísimo Sacramento<br>Guadalajara, Jalisco</p>
-        <a href="https://maps.google.com/?q=Templo+Expiatorio+Guadalajara" target="_blank" class="btn-outline">Ver Ubicación</a>
+        <a href="https://maps.google.com/?q=Templo+Expiatorio+Guadalajara" target="_blank" rel="noopener noreferrer" class="btn-outline">Ver Ubicación</a>
       </div>
 
       <div class="event-card">
         <h3>Recepción</h3>
         <p class="event-time">7:30 PM</p>
         <p class="event-place">Hacienda La Providencia · Salón Jardín<br>Tlajomulco de Zúñiga, Jalisco</p>
-        <a href="https://maps.google.com/?q=Guadalajara+Jalisco" target="_blank" class="btn-outline">Ver Ubicación</a>
+        <a href="https://maps.google.com/?q=Guadalajara+Jalisco" target="_blank" rel="noopener noreferrer" class="btn-outline">Ver Ubicación</a>
       </div>
     </section>
 
@@ -783,12 +821,12 @@
         <p style="color: var(--gold-light); font-weight: 500;">Transferencia / Lluvia de Sobres</p>
         <p style="color: var(--text-muted); margin: 0.4rem 0;">BBVA · Alejandro Hernández</p>
         <p id="clabe-text" style="letter-spacing: 1px; margin-bottom: 0.8rem;">012320015489632145</p>
-        <button class="btn-outline" onclick="copyClabe()">Copiar CLABE</button>
+        <button class="btn-outline" type="button" onclick="copyClabe()">Copiar CLABE</button>
       </div>
       <div class="info-box">
         <p style="color: var(--gold-light); font-weight: 500;">Mesa de Regalos Liverpool</p>
         <p style="color: var(--text-muted); margin: 0.4rem 0;">Número de evento: <strong>51289430</strong></p>
-        <a href="https://mesaderegalos.liverpool.com.mx/" target="_blank" class="btn-outline" style="margin-top: 0.4rem;">Ir a Mesa</a>
+        <a href="https://mesaderegalos.liverpool.com.mx/" target="_blank" rel="noopener noreferrer" class="btn-outline" style="margin-top: 0.4rem;">Ir a Mesa</a>
       </div>
     </section>
 
@@ -800,7 +838,7 @@
       <div class="info-box">
         <h3 style="font-size: 1.5rem; color: var(--gold);">Hotel Quinta Real Guadalajara</h3>
         <p style="color: var(--text-muted); margin: 0.5rem 0;">Código de tarifa preferencial: <strong>BODASOFIA26</strong></p>
-        <a href="https://maps.google.com/?q=Hotel+Quinta+Real+Guadalajara" target="_blank" class="btn-outline" style="margin-top: 0.5rem;">Ver Hotel</a>
+        <a href="https://maps.google.com/?q=Hotel+Quinta+Real+Guadalajara" target="_blank" rel="noopener noreferrer" class="btn-outline" style="margin-top: 0.5rem;">Ver Hotel</a>
       </div>
     </section>
 
@@ -831,18 +869,18 @@
 
       <form class="rsvp-form" onsubmit="sendWhatsApp(event)">
         <div>
-          <label>Nombre completo</label>
+          <label for="input-name">Nombre completo</label>
           <input type="text" id="input-name" placeholder="Ej. Familia Pérez García" required />
         </div>
         <div>
-          <label>¿Asistirán?</label>
+          <label for="input-status">¿Asistirán?</label>
           <select id="input-status">
             <option value="Sí, asistiremos con mucho gusto">Sí, asistiremos con mucho gusto</option>
             <option value="Lamentablemente no podremos asistir">Lamentablemente no podremos asistir</option>
           </select>
         </div>
         <div>
-          <label>Número de personas</label>
+          <label for="input-guests">Número de personas</label>
           <select id="input-guests">
             <option value="1 persona">1 persona</option>
             <option value="2 personas" selected>2 personas</option>
@@ -851,7 +889,7 @@
           </select>
         </div>
         <div>
-          <label>Mensaje para los novios (opcional)</label>
+          <label for="input-message">Mensaje para los novios (opcional)</label>
           <textarea id="input-message" rows="2" placeholder="¡Muchas felicidades!"></textarea>
         </div>
         <button type="submit" class="btn-gold">Confirmar por WhatsApp</button>
@@ -864,7 +902,7 @@
       <h3>Cotiza tu Invitación Digital</h3>
       <p>Personalizamos diseño, colores, música, mapas y enlaces para tu boda, XV años o evento.</p>
       <div class="phone-display">+52 1 314 247 8637</div>
-      <a href="https://wa.me/5213142478637?text=Hola%2C%20vi%20la%20muestra%20de%20invitaci%C3%B3n%20digital%20en%20VexaDigital%20y%20me%20gustar%C3%ADa%20cotizar%20una." target="_blank" class="btn-gold" style="display: inline-block; text-decoration: none; max-width: 300px;">
+      <a href="https://wa.me/5213142478637?text=Hola%2C%20vi%20la%20muestra%20de%20invitaci%C3%B3n%20digital%20en%20VexaDigital%20y%20me%20gustar%C3%ADa%20cotizar%20una." target="_blank" rel="noopener noreferrer" class="btn-gold" style="display: inline-block; text-decoration: none; max-width: 300px;">
         Cotizar por WhatsApp
       </a>
     </div>
@@ -872,7 +910,7 @@
     <!-- Pie de página -->
     <footer>
       <p>Con cariño, Sofía & Alejandro</p>
-      <p style="margin-top: 0.6rem;">Diseño digital por <a href="https://github.com/VexaDigital" target="_blank">VexaDigital</a></p>
+      <p style="margin-top: 0.6rem;">Diseño digital por <a href="https://github.com/VexaDigital" target="_blank" rel="noopener noreferrer">VexaDigital</a></p>
     </footer>
   </div>
 
@@ -883,46 +921,121 @@
     // 2. Número de WhatsApp al que llegan confirmaciones y canciones del evento
     const whatsappNumber = "523318658787";
 
-    // Referencias a música y botón flotante
+    function showToast(msg) {
+      const toast = document.getElementById('toast-msg');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    // Música: intenta reproducir ./boda.mp3 y si no existe/falla en el teléfono, usa melodía suave de respaldo
     const music = document.getElementById('bg-music');
     const musicBtn = document.getElementById('music-toggle');
+    let audioCtx = null;
+    let melodyTimer = null;
+    let usingSynth = false;
     let isPlaying = false;
 
-    // Cierra el sobre inicial e inicia la reproducción del MP3 si existe
-    function openInvitation() {
-      const overlay = document.getElementById('welcome-overlay');
-      if (overlay) {
-        overlay.classList.add('hidden');
-        setTimeout(() => {
-          overlay.style.display = 'none';
-        }, 850);
+    const romanticNotes = [261.63, 329.63, 392.00, 493.88, 440.00, 392.00, 329.63, 293.66];
+    let noteStep = 0;
+
+    function playSoftNote(freq) {
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.045, now + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.4);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 1.45);
+    }
+
+    function startFallbackSynth() {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return false;
+      if (!audioCtx) audioCtx = new AudioContextClass();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      usingSynth = true;
+      clearInterval(melodyTimer);
+      playSoftNote(romanticNotes[noteStep % romanticNotes.length]);
+      noteStep++;
+      melodyTimer = setInterval(() => {
+        if (!isPlaying) return;
+        playSoftNote(romanticNotes[noteStep % romanticNotes.length]);
+        noteStep++;
+      }, 950);
+      return true;
+    }
+
+    function playAudio(notifyIfFallback = false) {
+      if (usingSynth) {
+        isPlaying = startFallbackSynth();
+        if (isPlaying && musicBtn) musicBtn.textContent = '❚❚';
+        return;
       }
 
       if (music && music.querySelector('source')) {
         music.play().then(() => {
           isPlaying = true;
           if (musicBtn) musicBtn.textContent = '❚❚';
-        }).catch(() => {});
+        }).catch(() => {
+          const ok = startFallbackSynth();
+          if (ok) {
+            isPlaying = true;
+            if (musicBtn) musicBtn.textContent = '❚❚';
+            if (notifyIfFallback) showToast('Sin boda.mp3: música de respaldo activa');
+          }
+        });
+      } else {
+        const ok = startFallbackSynth();
+        if (ok) {
+          isPlaying = true;
+          if (musicBtn) musicBtn.textContent = '❚❚';
+        }
       }
+    }
+
+    function pauseAudio() {
+      isPlaying = false;
+      clearInterval(melodyTimer);
+      if (music) music.pause();
+      if (musicBtn) musicBtn.textContent = '♪';
+    }
+
+    // Cierra el sobre inicial e inicia la reproducción dentro del toque del usuario
+    function openInvitation() {
+      const overlay = document.getElementById('welcome-overlay');
+      if (overlay) {
+        overlay.classList.add('hidden');
+        setTimeout(() => {
+          overlay.style.display = 'none';
+        }, 700);
+      }
+      playAudio(true);
     }
 
     // Alterna reproducir/pausar música desde el botón flotante
     if (musicBtn) {
       musicBtn.addEventListener('click', () => {
-        if (!music || !music.querySelector('source')) return;
         if (isPlaying) {
-          music.pause();
-          musicBtn.textContent = '♪';
+          pauseAudio();
+          showToast('Música pausada');
         } else {
-          music.play().catch(() => {});
-          musicBtn.textContent = '❚❚';
+          playAudio(true);
+          showToast('Música activa');
         }
-        isPlaying = !isPlaying;
       });
     }
 
     // Actualiza días, horas, minutos y segundos cada segundo
-    setInterval(() => {
+    function updateCountdown() {
       const now = new Date().getTime();
       const diff = eventDate - now;
       if (diff <= 0) return;
@@ -936,7 +1049,9 @@
       if (h) h.textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
       if (m) m.textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
       if (s) s.textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-    }, 1000);
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
     // Abre la foto tocada en la galería
     function openPhoto(src) {
@@ -952,8 +1067,12 @@
     function copyClabe() {
       const clabeEl = document.getElementById('clabe-text');
       if (!clabeEl) return;
-      navigator.clipboard.writeText(clabeEl.textContent.trim());
-      alert('CLABE copiada al portapapeles');
+      const text = clabeEl.textContent.trim();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showToast('CLABE copiada')).catch(() => showToast(text));
+      } else {
+        showToast(text);
+      }
     }
 
     // Envía la canción sugerida por WhatsApp
@@ -977,15 +1096,6 @@
 
       window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
     }
-
-    // Muestra cada sección suavemente al entrar en pantalla
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
   </script>
 </body>
 </html>
